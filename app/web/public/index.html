@@ -33,8 +33,11 @@
   <script src="js/lib/backbone-min.js"></script>
   <script src="js/contactos.js"></script>
   <script src="js/agenda_vista.js"></script>
+  <script src="js/router.js"></script>
   <script>
      agenda_vista = new AgendaVista()
+     var mi_router = new ContactosRouter({view:agenda_vista})
+     Backbone.history.start();
   </script>
 </body>
 </html>

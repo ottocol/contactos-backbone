@@ -6,7 +6,7 @@ var AgendaVista = Backbone.View.extend({
         //Por defecto nos posicionaremos en el primer contacto de la agenda
         this.pos_actual = 0
         //Cuando se produzca un "reset", mostramos el modelo actual
-        this.listenTo(this.collection, "reset", this.render_data)
+        this.listenTo(this.collection, "reset", this.mostrar_actual)
         //Le pedimos la colección al servidor,
         //indicando que cuando se reciban los datos se dispare el evento "reset"
         this.collection.fetch({reset:true})
@@ -29,6 +29,14 @@ var AgendaVista = Backbone.View.extend({
         this.el.querySelector('#nombre').value = modelo_act.get("nombre")
         this.el.querySelector('#apellidos').value = modelo_act.get("apellidos")
         this.el.querySelector('#telefono').value = modelo_act.get("telefono")
+    },
+    mostrar_actual: function() {
+        //Caso especial: si me dicen -1 me están diciendo el último, -2 el penúltimo,...
+        if (this.pos_actual<0)
+            this.pos_actual = this.collection.length+this.pos_actual;
+        //Comprobamos que la posición actual esté en los límites
+        if (this.pos_actual>=0 && this.pos_actual<this.collection.length)
+            this.render_data()
     },
     //Ir al modelo anterior y mostrarlo
     ir_anterior: function () {
